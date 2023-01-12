@@ -31,6 +31,19 @@ public class Comment {
     @JsonIgnore
     private News news ;
 
+    @ManyToOne()
+    @JoinColumn(name = "Firstcomment_id")
+    @JsonIgnore
+    Comment initialComment;
+
+    public Comment getInitialComment() {
+        return initialComment;
+    }
+
+    public void setInitialComment(Comment initialComment) {
+        this.initialComment = initialComment;
+    }
+
     public Long getId() {
         return id;
     }

@@ -28,6 +28,8 @@ public class User {
     @Lob
     private byte[] data;
 
+
+
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL)
     @JsonIgnore

@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 @RequestMapping("/file")
 public class FilesController {
     FileServiceImpl fileService;
-
     public FilesController(FileServiceImpl fileService) {
         this.fileService = fileService;
     }
@@ -39,7 +38,6 @@ public class FilesController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new FileResponse(message));
         }
     }
-
     @GetMapping("/files")
     public ResponseEntity<List<File>> getListFiles() {
         List<File> fileInfos = fileService.loadAll().map(path -> {

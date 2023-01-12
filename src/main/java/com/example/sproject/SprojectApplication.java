@@ -21,7 +21,6 @@ public class SprojectApplication implements CommandLineRunner {
     }
     @Override
     public void run(String... arg) throws Exception {
-//    storageService.deleteAll();
         fileService.init();
     }
 
