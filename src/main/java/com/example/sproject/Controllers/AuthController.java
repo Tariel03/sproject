@@ -6,6 +6,13 @@ import com.example.sproject.Services.RegistrationService;
 import com.example.sproject.Dto.AuthenticationDTO;
 import com.example.sproject.util.JwtUtil;
 import com.sun.xml.bind.v2.schemagen.episode.SchemaBindings;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +46,10 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
+    @Operation(summary = "Registration", description = "This request creates a new user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
     public Map<String, String> performRegistration(@RequestBody @Valid UserDTO userDto,
                                       BindingResult bindingResult) {
         User user = convertToUser(userDto);
@@ -52,6 +63,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login", description = "This request is used for logging in")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
     public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
         UsernamePasswordAuthenticationToken authInputToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(),

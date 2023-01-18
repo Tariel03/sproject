@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -23,6 +24,7 @@ public class News {
     String genre;
     LocalDate localDate;
 
+
     public LocalDate getLocalDate() {
         return localDate;
     }
@@ -39,6 +41,10 @@ public class News {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+    @ManyToOne()
+    @JoinColumn(name = "field_id")
+    @JsonIgnore
+    private File file;
 
     @OneToMany(mappedBy = "news",
             cascade = CascadeType.ALL)

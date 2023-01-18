@@ -1,9 +1,7 @@
 package com.example.sproject.Services;
 
-import com.example.sproject.Models.Doll;
 import com.example.sproject.Models.User;
 import com.example.sproject.Repositories.ClientRepository;
-import com.example.sproject.Repositories.DollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,12 +15,10 @@ import java.util.Optional;
 @Service
 public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
-    private final DollRepository dollRepository;
     private final ClientRepository clientRepository;
     @Autowired
-    public RegistrationService(PasswordEncoder passwordEncoder, DollRepository dollRepository, ClientRepository clientRepository) {
+    public RegistrationService(PasswordEncoder passwordEncoder, ClientRepository clientRepository) {
         this.passwordEncoder = passwordEncoder;
-        this.dollRepository = dollRepository;
         this.clientRepository = clientRepository;
     }
 
@@ -33,11 +29,6 @@ public class RegistrationService {
         clientRepository.save(user);
 
     }
-    @Transactional
-    public void doll(Doll doll){
-        dollRepository.save(doll);
-    }
-
     public User currentUser (){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails personDetails = (UserDetails) authentication.getPrincipal();

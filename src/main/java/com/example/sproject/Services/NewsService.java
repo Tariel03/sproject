@@ -69,6 +69,9 @@ public class NewsService {
     public List<News> favouriteNews(){
         return newsRepository.findNewsByUserAndLiked(registrationService.currentUser(), true);
     }
+    public List<News> findByKeyword(String header){
+        return  newsRepository.findNewsByHeaderStartsWith(header);
+    }
 
 
 
