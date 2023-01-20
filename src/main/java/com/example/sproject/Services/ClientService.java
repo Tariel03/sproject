@@ -34,9 +34,6 @@ public class ClientService {
         user.setData(null);
         clientRepository.save(user);
     }
-    public User findByDataName(String name){
-        return clientRepository.findByData(name).orElse(null);
-    }
 
 
 }

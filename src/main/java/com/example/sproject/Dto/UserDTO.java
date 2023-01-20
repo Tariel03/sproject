@@ -9,6 +9,7 @@ public class UserDTO {
     @Size(min = 2, max = 35, message = "Имя должно быть от 2 до 35 символов длиной")
     private String username;
     @NotEmpty
+    @Size(min = 6, max = 100, message = "Пароль должен быть от 6 до 1000 символов")
     private String password;
 
     @NotEmpty

@@ -28,6 +28,8 @@ public class RegistrationService {
         user.setPassword(pass);
         clientRepository.save(user);
 
+
+
     }
     public User currentUser (){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

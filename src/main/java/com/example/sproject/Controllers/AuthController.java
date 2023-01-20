@@ -2,23 +2,24 @@ package com.example.sproject.Controllers;
 
 import com.example.sproject.Dto.UserDTO;
 import com.example.sproject.Models.User;
+import com.example.sproject.Repositories.ClientRepository;
 import com.example.sproject.Services.RegistrationService;
 import com.example.sproject.Dto.AuthenticationDTO;
 import com.example.sproject.util.JwtUtil;
-import com.sun.xml.bind.v2.schemagen.episode.SchemaBindings;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Objects;
 
 
 @RestController
@@ -37,12 +39,16 @@ public class AuthController {
     private final JwtUtil jwtUtil;
    private final AuthenticationManager authenticationManager;
     private final ModelMapper modelMapper;
+    private final ClientRepository clientRepository;
+    private final MessageSource messageSource;
     @Autowired
-    public AuthController(RegistrationService registrationService, JwtUtil jwtUtil, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
+    public AuthController(RegistrationService registrationService, JwtUtil jwtUtil, AuthenticationManager authenticationManager, ModelMapper modelMapper, ClientRepository clientRepository, MessageSource messageSource) {
         this.registrationService = registrationService;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.modelMapper = modelMapper;
+        this.clientRepository = clientRepository;
+        this.messageSource = messageSource;
     }
 
     @PostMapping("/registration")
@@ -54,7 +60,13 @@ public class AuthController {
                                       BindingResult bindingResult) {
         User user = convertToUser(userDto);
         if (bindingResult.hasErrors()) {
-            return Map.of("message", "Ошибка!");
+            FieldError fieldError = bindingResult.getFieldError();
+            assert fieldError != null;
+            String message = messageSource.getMessage(fieldError,null);
+            return Map.of("message",message );
+        }
+        if(clientRepository.findByUsername(user.getUsername()).isPresent()) {
+            return Map.of("User by this username exists",user.getUsername());
         }
         registrationService.register(user);
 

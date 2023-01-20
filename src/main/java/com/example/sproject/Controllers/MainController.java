@@ -32,25 +32,27 @@ public class MainController {
     CommentService commentService;
 
     @Autowired
-    public MainController(ClientService clientService, NewsService newsService, RegistrationService registrationService,  CommentService commentService) {
+    public MainController(ClientService clientService, NewsService newsService, RegistrationService registrationService, CommentService commentService) {
         this.clientService = clientService;
         this.newsService = newsService;
         this.registrationService = registrationService;
         this.commentService = commentService;
     }
+
     @GetMapping("/all")
     @Operation(summary = "All users", description = "This request shows all users in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public List<User> clientList() {
         return clientService.findAll();
     }
+
     @GetMapping("/user/{id}")
     @Operation(summary = "User id", description = "This request shows userInfo by User's id ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public String users(@PathVariable("id") Long id) {
         User user = new User();
         Optional<User> optionalUser = clientService.findById(id);
@@ -65,7 +67,7 @@ public class MainController {
     @Operation(summary = "User info", description = "This request shows userInfo of current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public User showUserInfo() {
         return registrationService.currentUser();
     }
@@ -74,7 +76,7 @@ public class MainController {
     @Operation(summary = "Upload photo", description = "This request sets profile picture to the current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public ResponseEntity<ImageUploadResponse> uploadPhoto(@RequestParam("image") MultipartFile file)
             throws IOException {
         User user = registrationService.currentUser();
@@ -87,22 +89,24 @@ public class MainController {
                 .body(new ImageUploadResponse("Image uploaded successfully: " +
                         file.getOriginalFilename()));
     }
+
     @DeleteMapping("/delete/photo")
     @Operation(summary = "Delete photo", description = "This request deletes profile picture to the current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public ResponseEntity<ImageUploadResponse> deletePhoto() {
         User user = registrationService.currentUser();
         clientService.deletePhoto(user);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ImageUploadResponse("Image deleted successfully: "));
     }
+
     @PutMapping("edit/lastname/{lastname}")
     @Operation(summary = "Edit lastname", description = "This request edits lastname of the current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public ResponseEntity<HttpStatus> editLastname(@PathVariable("lastname") String lastname) {
         User user = registrationService.currentUser();
         user.setLastname(lastname);
@@ -114,33 +118,23 @@ public class MainController {
     @Operation(summary = "Edit firstname", description = "This request edits firstname of the current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public ResponseEntity<HttpStatus> editFirstname(@PathVariable("firstname") String firstname) {
         User user = registrationService.currentUser();
         user.setFirstname(firstname);
         clientService.save(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
     @PutMapping("/edit/username/{username}")
     @Operation(summary = "Edit username", description = "This request edits username of the current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))})
     public ResponseEntity<HttpStatus> editUsername(@PathVariable("username") String username) {
         User user = registrationService.currentUser();
         user.setUsername(username);
         clientService.save(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-    @GetMapping(path = "/get/photo")
-    public ResponseEntity<byte[]> getImage() throws IOException {
-        final User user = registrationService.currentUser();
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.valueOf(user.getLastname()))
-                .body(ImageUtility.decompressImage(user.getData()));
-    }
-
-
-
 }

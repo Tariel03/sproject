@@ -34,8 +34,8 @@ public class CommentService {
         return commentRepository.findCommentsByInitialComment(comment);
     }
 
-    public List<Comment> comments(){
-        return commentRepository.findAll();
+    public List<Comment> comments(News news){
+        return commentRepository.findCommentsByNews(news);
     }
 
 }

@@ -41,10 +41,7 @@ public class News {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
-    @ManyToOne()
-    @JoinColumn(name = "field_id")
-    @JsonIgnore
-    private File file;
+
 
     @OneToMany(mappedBy = "news",
             cascade = CascadeType.ALL)

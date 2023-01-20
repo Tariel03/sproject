@@ -34,9 +34,9 @@ public class CommentController {
         this.newsService = newsService;
     }
 
-    @GetMapping
-    public List<Comment> AllComments() {
-        return commentService.comments();
+    @GetMapping("/{id}")
+    public List<Comment> AllComments(@PathVariable Long id) {
+        return commentService.comments(newsService.newsById(id));
     }
     @PostMapping("/write/comment/reply/{id}")
     @Operation(summary = "Reply", description = "This request replies to a certain comment, which is set by id")
