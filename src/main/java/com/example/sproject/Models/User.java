@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -77,6 +78,27 @@ public class User {
         this.lastname = lastname;
         this.firstname = firstname;
         this.data = data;
+    }
+
+    public User(Long id, String username, String password, String lastname, String firstname, byte[] data) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.data = data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getLastname(), user.getLastname()) && Objects.equals(getFirstname(), user.getFirstname());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword(), getLastname(), getFirstname());
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.example.sproject.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class Comment {
@@ -86,5 +88,17 @@ public class Comment {
 
     public Comment() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Comment comment)) return false;
+        return Objects.equals(getMessage(), comment.getMessage()) && Objects.equals(getDate(), comment.getDate()) && Objects.equals(getUserComment(), comment.getUserComment()) && Objects.equals(getNews(), comment.getNews()) && Objects.equals(getInitialComment(), comment.getInitialComment());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMessage(), getDate(), getUserComment(), getNews(), getInitialComment());
     }
 }

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -53,6 +54,18 @@ public class News {
         this.photo = photo;
         this.liked = liked;
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof News news)) return false;
+        return isLiked() == news.isLiked() && Objects.equals(getHeader(), news.getHeader()) && Objects.equals(getSmall(), news.getSmall()) && Objects.equals(getText(), news.getText()) && Objects.equals(getGenre(), news.getGenre()) && Objects.equals(getUser(), news.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getHeader(), getSmall(), getText(), getGenre(), isLiked(), getUser());
     }
 
     public Long getId() {
