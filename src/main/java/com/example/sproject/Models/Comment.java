@@ -16,6 +16,19 @@ public class Comment {
     Long id;
     @Size(min = 2, max = 150)
     String message;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", date=" + date +
+                ", userComment=" + userComment +
+                ", news=" + news +
+                ", initialComment=" + initialComment +
+                '}';
+    }
+
     LocalDate date;
 
     public Comment(String message) {

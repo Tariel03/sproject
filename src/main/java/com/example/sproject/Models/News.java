@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
@@ -66,6 +67,23 @@ public class News {
     @Override
     public int hashCode() {
         return Objects.hash(getHeader(), getSmall(), getText(), getGenre(), isLiked(), getUser());
+    }
+
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", header='" + header + '\'' +
+                ", small='" + small + '\'' +
+                ", text='" + text + '\'' +
+                ", genre='" + genre + '\'' +
+                ", localDate=" + localDate +
+                ", photo=" + Arrays.toString(photo) +
+                ", liked=" + liked +
+                ", user=" + user +
+                ", comments=" + comments +
+                '}';
     }
 
     public Long getId() {

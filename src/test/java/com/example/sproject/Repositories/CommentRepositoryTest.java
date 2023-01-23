@@ -1,9 +1,13 @@
 package com.example.sproject.Repositories;
 
+import com.example.sproject.Dto.UserDTO;
 import com.example.sproject.Models.Comment;
 import com.example.sproject.Models.News;
+import com.example.sproject.Models.User;
 import org.aspectj.weaver.loadtime.definition.Definition;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -15,14 +19,24 @@ class CommentRepositoryTest {
     @Autowired
     CommentRepository commentRepository;
     @Autowired
+    ClientRepository clientRepository;
+    @Autowired
     private NewsRepository newsRepository;
+
+    private User getUser() {
+        User user = new User("tariel", "nurlanobivc", "Akmatov", "Tariel");
+        clientRepository.save(user);
+        return user;
+    }
+
 
     @Test
     void findCommentsByNews() {
-        News news = new News(1L, "iehasidhsadhsahd", "adsdhsjahdhaks", "asdasdoiashd", "anime",null,false,null,null);
+        User user = getUser();
+        News news = new News(1L, "iehasidhsadhsahd", "adsdhsjahdhaks", "asdasdoiashd", "anime",null,false,user,null);
         newsRepository.save(news);
         Comment comment = new Comment();
-        comment.setUserComment(null);
+        comment.setUserComment(user);
         comment.setNews(news);
         comment.setDate(LocalDate.now());
         commentRepository.save(comment);
@@ -32,6 +46,7 @@ class CommentRepositoryTest {
 
     @Test
     void findCommentsByInitialComment() {
+        User user = getUser();
         Comment initialComment = new Comment("Enooototot");
         commentRepository.save(initialComment);
         Comment comment = new Comment("No way you said that bro!");
@@ -40,4 +55,6 @@ class CommentRepositoryTest {
         assertEquals(comment, commentRepository.findCommentsByInitialComment(initialComment).get(0));
 
     }
+
+
 }

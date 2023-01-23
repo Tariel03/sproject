@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
+@Entity(name = "Client")
 @Table
 @Component
 public class User {
@@ -80,13 +80,11 @@ public class User {
         this.data = data;
     }
 
-    public User(Long id, String username, String password, String lastname, String firstname, byte[] data) {
-        this.id = id;
+    public User(String username, String password, String lastname, String firstname) {
         this.username = username;
         this.password = password;
         this.lastname = lastname;
         this.firstname = firstname;
-        this.data = data;
     }
 
     @Override

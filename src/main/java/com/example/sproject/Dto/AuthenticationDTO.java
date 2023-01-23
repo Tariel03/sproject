@@ -27,4 +27,5 @@ public class AuthenticationDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

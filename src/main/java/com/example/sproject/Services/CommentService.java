@@ -15,6 +15,8 @@ import java.util.List;
 public class CommentService {
     CommentRepository commentRepository;
     RegistrationService registrationService;
+
+
     @Autowired
     public CommentService(CommentRepository commentRepository, RegistrationService registrationService) {
         this.commentRepository = commentRepository;
@@ -36,6 +38,10 @@ public class CommentService {
 
     public List<Comment> comments(News news){
         return commentRepository.findCommentsByNews(news);
+    }
+
+    public List<Comment>allComments(){
+        return commentRepository.findAll();
     }
 
 }
