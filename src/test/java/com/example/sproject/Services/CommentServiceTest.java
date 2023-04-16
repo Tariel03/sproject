@@ -18,6 +18,8 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
+
+    @Mock
     CommentService commentService;
     @Mock
     CommentRepository commentRepository;

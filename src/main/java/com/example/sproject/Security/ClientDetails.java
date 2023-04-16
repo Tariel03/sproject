@@ -10,11 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class ClientDetails implements UserDetails {
-    private final User user;
-    public ClientDetails(User user) {
-        this.user = user;
-    }
+public record ClientDetails(User user) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,11 +47,6 @@ public class ClientDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    // Нужно, чтобы получать данные аутентифицированного пользователя
-    public User user() {
-        return this.user;
     }
 
 }
