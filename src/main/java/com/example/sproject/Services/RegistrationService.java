@@ -27,9 +27,7 @@ public class RegistrationService {
         String pass = passwordEncoder.encode(user.getPassword());
         user.setPassword(pass);
         clientRepository.save(user);
-
-
-
+        
     }
     public User currentUser (){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

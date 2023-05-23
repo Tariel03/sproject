@@ -36,17 +36,17 @@ public class Comment {
         this.date = LocalDate.now();
     }
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User userComment;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "news_id")
     @JsonIgnore
     private News news ;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "Firstcomment_id")
     @JsonIgnore
     Comment initialComment;
